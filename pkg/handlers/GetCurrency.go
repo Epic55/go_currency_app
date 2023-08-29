@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 	//"os"
 )
 
@@ -26,7 +28,10 @@ type s1 struct {
 }
 
 func (h handler) GetCurrency(w http.ResponseWriter, r *http.Request) {
-	response, err := http.Get("https://nationalbank.kz/rss/get_rates.cfm?fdate=21.08.2023")
+	vars := mux.Vars(r)
+	d, _ := vars["d"]
+
+	response, err := http.Get("https://nationalbank.kz/rss/get_rates.cfm?fdate=" + d)
 	if err != nil {
 		fmt.Print(err.Error())
 	}
