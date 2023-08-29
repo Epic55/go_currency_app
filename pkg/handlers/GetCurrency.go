@@ -37,19 +37,6 @@ func (h handler) GetCurrency(w http.ResponseWriter, r *http.Request) {
 	var var1 Rates
 	xml.Unmarshal(responseData, &var1)
 
-	// for i := 0; i < len(var1.Rates); i++ {
-	// 	fmt.Println("Fullname: " + var1.Rates[i].Fullname)
-	// 	fmt.Println("Title: " + var1.Rates[i].Title)
-	// 	fmt.Println("Description: " + var1.Rates[i].Description)
-	// 	fmt.Println("Quant: ", var1.Rates[i].Quant)
-	// 	fmt.Println("Index: ", var1.Rates[i].Index)
-	// 	fmt.Println("Change: ", var1.Rates[i].Change, "\n")
-	// }
-
-	// if result := h.DB.Find(&var1); result.Error != nil {
-	// 	fmt.Println(result.Error)
-	// }
-
 	w.Header().Add("Content-Type", "application/xml")
 	w.WriteHeader(http.StatusOK)
 	xml.NewEncoder(w).Encode(var1)
