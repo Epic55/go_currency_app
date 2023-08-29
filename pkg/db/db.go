@@ -3,7 +3,7 @@ package db
 import (
 	"log"
 
-	"github.com/tutorials/go/crud/pkg/models"
+	"github.com/Epic55/go_project_task/pkg/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -18,6 +18,6 @@ func Init() *gorm.DB {
 	}
 
 	db.AutoMigrate(&models.Book{})
-
+	db.AutoMigrate(&models.R_CURRENCY{})
 	return db
 }

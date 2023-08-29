@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/Epic55/go_project_task/pkg/models"
 	"github.com/gorilla/mux"
-	"github.com/tutorials/go/crud/pkg/models"
 )
 
 func (h handler) DeleteBook(w http.ResponseWriter, r *http.Request) {
@@ -18,7 +18,7 @@ func (h handler) DeleteBook(w http.ResponseWriter, r *http.Request) {
 	// Find the book by Id
 
 	var book models.Book
-	
+
 	if result := h.DB.First(&book, id); result.Error != nil {
 		fmt.Println(result.Error)
 	}

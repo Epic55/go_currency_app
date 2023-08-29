@@ -4,9 +4,9 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/Epic55/go_project_task/pkg/db"
+	"github.com/Epic55/go_project_task/pkg/handlers"
 	"github.com/gorilla/mux"
-	"github.com/tutorials/go/crud/pkg/db"
-	"github.com/tutorials/go/crud/pkg/handlers"
 )
 
 func main() {

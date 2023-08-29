@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/tutorials/go/crud/pkg/models"
+	"github.com/Epic55/go_project_task/pkg/models"
 )
 
 func (h handler) GetAllBooks(w http.ResponseWriter, r *http.Request) {

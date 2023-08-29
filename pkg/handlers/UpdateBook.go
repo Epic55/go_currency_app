@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/Epic55/go_project_task/pkg/models"
 	"github.com/gorilla/mux"
-	"github.com/tutorials/go/crud/pkg/models"
 )
 
 func (h handler) UpdateBook(w http.ResponseWriter, r *http.Request) {

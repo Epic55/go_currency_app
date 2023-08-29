@@ -1,4 +1,4 @@
-module github.com/tutorials/go/crud
+module github.com/Epic55/go_project_task
 
 go 1.16
 

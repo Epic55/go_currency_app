@@ -6,8 +6,8 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	
-	"github.com/tutorials/go/crud/pkg/models"
+
+	"github.com/Epic55/go_project_task/pkg/models"
 )
 
 func (h handler) AddBook(w http.ResponseWriter, r *http.Request) {
@@ -18,7 +18,7 @@ func (h handler) AddBook(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	
+
 	var book models.Book
 	json.Unmarshal(body, &book)
 

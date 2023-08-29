@@ -11,6 +11,7 @@ import (
 
 type Rates struct {
 	XMLName xml.Name `xml:"rates"`
+	Date    string   `xml:"date"`
 	Rates   []s1     `xml:"item"`
 }
 
