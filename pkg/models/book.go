@@ -8,7 +8,7 @@ type Book struct {
 }
 
 type R_CURRENCY struct {
-	Id          int     `json:"id" gorm:"primaryKey"`
+	Id          int     `xml:"id" gorm:"primaryKey"`
 	Fullname    string  `xml:"fullname"`
 	Title       string  `xml:"title"`
 	Description string  `xml:"description"`
