@@ -18,6 +18,6 @@ func Init() *gorm.DB {
 	}
 
 	db.AutoMigrate(&models.Book{})
-	db.AutoMigrate(&models.R_CURRENCY{})
+	db.AutoMigrate(&models.RateModel{}, &models.R_CURRENCY{})
 	return db
 }

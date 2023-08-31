@@ -7,53 +7,16 @@ import (
 	"log"
 	"net/http"
 
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	"github.com/Epic55/go_project_task/pkg/models"
+	"github.com/gorilla/mux"
 )
 
-type Rate struct {
-	//XMLName     xml.Name `xml:"rates"`
-	Date  string `xml:"date"`
-	Items []Item `xml:"item"`
-}
-
-type Item struct {
-	//XMLName  xml.Name `xml:"item"`
-	Fullname    string `xml:"fullname"`
-	Title       string `xml:"title"`
-	Description string `xml:"description"`
-	Quant       string `xml:"quant"`
-	Index       string `xml:"index"`
-	Change      string `xml:"change"`
-}
-
-type RateModel struct {
-	gorm.Model
-	Date string
-	Item []ItemModel
-}
-
-type ItemModel struct {
-	gorm.Model
-	RateModelID uint
-	Fullname    string
-	Title       string
-	Description string
-	Quant       string
-	Index       string
-	Change      string
-}
-
 func (h handler) Z(w http.ResponseWriter, r *http.Request) {
-	dbURL := "postgres://postgres:1@localhost:5432/db1"
-	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{})
-	if err != nil {
-		log.Fatal(err)
-	}
 
-	db.AutoMigrate(&RateModel{}, &ItemModel{})
+	vars := mux.Vars(r)
+	d, _ := vars["d"]
 
-	response, err := http.Get("https://nationalbank.kz/rss/get_rates.cfm?fdate=29.08.2023")
+	response, err := http.Get("https://nationalbank.kz/rss/get_rates.cfm?fdate=" + d)
 	if err != nil {
 		fmt.Print(err.Error())
 	}
@@ -63,31 +26,34 @@ func (h handler) Z(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	var rate Rate
+	var rate models.Rate
 	err = xml.Unmarshal([]byte(responseData), &rate)
 	if err != nil {
 		log.Fatal("Error - ", err)
 	}
 
 	// Create a new RateModel instance
-	rateModel := RateModel{
+	rateModel := models.RateModel{
 		Date: rate.Date,
 	}
 
 	// Convert and save items
 	for _, item := range rate.Items {
-		rateModel.Item = append(rateModel.Item, ItemModel{
+		rateModel.Item = append(rateModel.Item, models.R_CURRENCY{
 			Fullname:    item.Fullname,
 			Title:       item.Title,
 			Description: item.Description,
 			Quant:       item.Quant,
 			Index:       item.Index,
 			Change:      item.Change,
-			Date:        rate.Date,
+			//Date:        rate.Date,
 		})
 	}
 
-	db.Create(&rateModel)
-
+	h.DB.Create(&rateModel)
 	fmt.Println("Data saved successfully")
+
+	w.Header().Add("Content-Type", "application/xml")
+	w.WriteHeader(http.StatusOK)
+	xml.NewEncoder(w).Encode("Done")
 }
