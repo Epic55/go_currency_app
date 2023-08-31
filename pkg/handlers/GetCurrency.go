@@ -7,25 +7,21 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Epic55/go_project_task/pkg/models"
 	"github.com/gorilla/mux"
 	//"os"
 )
 
 type Rates struct {
-	XMLName xml.Name `xml:"rates"`
-	Date    string   `xml:"date"`
-	Rates   []s1     `xml:"item"`
-}
-
-type s1 struct {
-	XMLName     xml.Name `xml:"item"`
-	Fullname    string   `xml:"fullname"`
-	Title       string   `xml:"title"`
-	Description string   `xml:"description"`
-	Quant       int      `xml:"quant"`
-	Index       int      `xml:"index"`
-	Change      float64  `xml:"change"`
+	//	XMLName xml.Name `xml:"rates"`
+	Date string `xml:"date"`
+	Item struct {
+		Fullname    string  `xml:"fullname"`
+		Title       string  `xml:"title"`
+		Description string  `xml:"description"`
+		Quant       int     `xml:"quant"`
+		Index       int     `xml:"index"`
+		Change      float64 `xml:"change"`
+	}
 }
 
 func (h handler) GetCurrency(w http.ResponseWriter, r *http.Request) {
@@ -50,13 +46,13 @@ func (h handler) GetCurrency(w http.ResponseWriter, r *http.Request) {
 		log.Fatalln(err)
 	}
 
-	var var2 models.R_CURRENCY
-	xml.Unmarshal(responseData, &var2)
+	//var var2 models.R_CURRENCY
+	//xml.Unmarshal([]byte(responseData), &var2)
 
-	if result := h.DB.Create(&var2); result.Error != nil {
+	if result := h.DB.Create(&var1); result.Error != nil {
 		fmt.Println(result.Error)
 	}
-
+	fmt.Println("\n", var1)
 	w.Header().Add("Content-Type", "application/xml")
 	w.WriteHeader(http.StatusOK)
 	xml.NewEncoder(w).Encode(var1)
