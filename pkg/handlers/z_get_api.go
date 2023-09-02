@@ -51,11 +51,12 @@ func (h handler) Api(w http.ResponseWriter, r *http.Request) {
 		})
 	}
 
-	if result := h.DB.Create(&v1); result.Error != nil {
-		fmt.Println(result.Error)
-	}
+	go result, err := h.DB.Create(&v1)
+	if err != nil {
+		log.Fatal(err)
+	} 
 	fmt.Println("Data saved successfully")
-
+	
 	w.Header().Add("Content-Type", "application/xml")
 	w.WriteHeader(http.StatusOK)
 	go xml.NewEncoder(w).Encode("Done")
