@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/Epic55/go_project_task/pkg/models"
 	"github.com/gorilla/mux"
@@ -26,34 +27,37 @@ func (h handler) Api(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	var rate models.Rate
-	err = xml.Unmarshal([]byte(responseData), &rate)
+	var v2 models.Rate
+	err = xml.Unmarshal([]byte(responseData), &v2)
 	if err != nil {
 		log.Fatal("Error - ", err)
 	}
 
 	// Create a new RateModel instance
-	rateModel := models.RateModel{
-		Date: rate.Date,
+	v1 := models.RateModel{
+		A_date: v2.A_date,
 	}
 
 	// Convert and save items
-	for _, item := range rate.Items {
-		rateModel.Item = append(rateModel.Item, models.R_CURRENCY{
-			Fullname:    item.Fullname,
-			Title:       item.Title,
-			Description: item.Description,
-			Quant:       item.Quant,
-			Index:       item.Index,
-			Change:      item.Change,
-			//Date:        rate.Date,
+	for _, i := range v2.Items {
+		v1.Item = append(v1.Item, models.R_CURRENCY{
+			Fullname:    i.Fullname,
+			Title:       i.Title,
+			Description: i.Description,
+			Quant:       i.Quant,
+			Index:       i.Index,
+			Change:      i.Change,
+			A_date:      v2.A_date,
 		})
 	}
 
-	h.DB.Create(&rateModel)
+	if result := h.DB.Create(&v1); result.Error != nil {
+		fmt.Println(result.Error)
+	}
 	fmt.Println("Data saved successfully")
 
 	w.Header().Add("Content-Type", "application/xml")
 	w.WriteHeader(http.StatusOK)
-	xml.NewEncoder(w).Encode("Done")
+	go xml.NewEncoder(w).Encode("Done")
+	time.Sleep(time.Second)
 }

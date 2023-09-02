@@ -10,8 +10,8 @@ type Book struct {
 }
 
 type Rate struct {
-	Date  string `xml:"date"`
-	Items []Item `xml:"item"`
+	A_date string `xml:"date"`
+	Items  []Item `xml:"item"`
 }
 
 type Item struct {
@@ -21,23 +21,30 @@ type Item struct {
 	Quant       string `xml:"quant"`
 	Index       string `xml:"index"`
 	Change      string `xml:"change"`
-	//Date        string
 }
 
 type RateModel struct {
 	gorm.Model
-	Date string
-	Item []R_CURRENCY
+	A_date string
+	Item   []R_CURRENCY
 }
 
 type R_CURRENCY struct {
 	gorm.Model
 	RateModelID uint
+	A_date      string
 	Fullname    string
 	Title       string
 	Description string
 	Quant       string
 	Index       string
 	Change      string
-	//Date        string
+}
+
+type Db_param struct {
+	User     string
+	Password string
+	Host     string
+	DbName   string
+	Port     string
 }
