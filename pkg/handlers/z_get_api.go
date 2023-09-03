@@ -1,12 +1,12 @@
 package handlers
 
 import (
+	"encoding/json"
 	"encoding/xml"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
-	"time"
 
 	"github.com/Epic55/go_project_task/pkg/models"
 	"github.com/gorilla/mux"
@@ -15,9 +15,9 @@ import (
 func (h handler) Api(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
-	d, _ := vars["d"]
+	date1, _ := vars["date1"]
 
-	response, err := http.Get("https://nationalbank.kz/rss/get_rates.cfm?fdate=" + d)
+	response, err := http.Get("https://nationalbank.kz/rss/get_rates.cfm?fdate=" + date1)
 	if err != nil {
 		fmt.Print(err.Error())
 	}
@@ -51,14 +51,30 @@ func (h handler) Api(w http.ResponseWriter, r *http.Request) {
 		})
 	}
 
-	go result, err := h.DB.Create(&v1)
-	if err != nil {
-		log.Fatal(err)
-	} 
-	fmt.Println("Data saved successfully")
-	
-	w.Header().Add("Content-Type", "application/xml")
-	w.WriteHeader(http.StatusOK)
-	go xml.NewEncoder(w).Encode("Done")
-	time.Sleep(time.Second)
+	var result2 []byte
+	if result := h.DB.Create(&v1); result.Error != nil {
+		fmt.Println(result.Error)
+		result1 := map[string]bool{"success": false}
+		result2, _ = json.Marshal(result1)
+		fmt.Println(string(result2))
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(string(result2))
+	} else {
+		fmt.Println("Data saved successfully")
+		result1 := map[string]bool{"success": true}
+		result2, _ := json.Marshal(result1)
+		fmt.Println(string(result2))
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(string(result2))
+	}
+	//go result, err := h.DB.Create(&v1)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//w.Header().Add("Content-Type", "application/xml")
+	//w.WriteHeader(http.StatusOK)
+	//xml.NewEncoder(w).Encode("Done")
+	//time.Sleep(time.Second)
 }
