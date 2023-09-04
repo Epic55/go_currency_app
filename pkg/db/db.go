@@ -31,7 +31,6 @@ func Init() *gorm.DB {
 		log.Fatalln(err)
 	}
 
-	db.AutoMigrate(&models.Book{})
 	db.AutoMigrate(&models.RateModel{}, &models.R_CURRENCY{})
 	return db
 }

@@ -12,7 +12,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func (h handler) Api(w http.ResponseWriter, r *http.Request) {
+func (h handler) Get_currency_from_api(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
 	date1, _ := vars["date1"]
@@ -41,13 +41,10 @@ func (h handler) Api(w http.ResponseWriter, r *http.Request) {
 	// Convert and save items
 	for _, i := range v2.Items {
 		v1.Item = append(v1.Item, models.R_CURRENCY{
-			Fullname:    i.Fullname,
-			Title:       i.Title,
-			Description: i.Description,
-			Quant:       i.Quant,
-			Index:       i.Index,
-			Change:      i.Change,
-			A_date:      v2.A_date,
+			Title:  i.Title,
+			Code:   i.Code,
+			Value:  i.Value,
+			A_date: v2.A_date,
 		})
 	}
 
