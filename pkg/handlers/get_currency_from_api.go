@@ -27,29 +27,29 @@ func (h handler) Get_currency_from_api(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	var v2 models.Rate
-	err = xml.Unmarshal([]byte(responseData), &v2)
+	var rate1 models.Rate
+	err = xml.Unmarshal([]byte(responseData), &rate1)
 	if err != nil {
 		log.Fatal("Error - ", err)
 	}
 
 	// Create a new RateModel instance
-	v1 := models.RateModel{
-		A_date: v2.A_date,
+	ratemodel1 := models.RateModel{
+		A_date: rate1.A_date,
 	}
 
 	// Convert and save items
-	for _, i := range v2.Items {
-		v1.Item = append(v1.Item, models.R_CURRENCY{
+	for _, i := range rate1.Items {
+		ratemodel1.Item = append(ratemodel1.Item, models.R_CURRENCY{
 			Title:  i.Title,
 			Code:   i.Code,
 			Value:  i.Value,
-			A_date: v2.A_date,
+			A_date: rate1.A_date,
 		})
 	}
 
 	var result2 []byte
-	if result := h.DB.Create(&v1); result.Error != nil {
+	if result := h.DB.Create(&ratemodel1); result.Error != nil {
 		fmt.Println(result.Error)
 		result1 := map[string]bool{"success": false}
 		result2, _ = json.Marshal(result1)
@@ -58,7 +58,6 @@ func (h handler) Get_currency_from_api(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(string(result2))
 	} else {
-		fmt.Println("Data saved successfully")
 		result1 := map[string]bool{"success": true}
 		result2, _ := json.Marshal(result1)
 		fmt.Println(string(result2))
