@@ -49,6 +49,7 @@ func (h handler) Get_currency_from_api(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var result2 []byte
+
 	if result := h.DB.Create(&ratemodel1); result.Error != nil {
 		fmt.Println(result.Error)
 		result1 := map[string]bool{"success": false}
@@ -65,6 +66,27 @@ func (h handler) Get_currency_from_api(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(string(result2))
 	}
+
+	// go func() {
+	// 	if result := h.DB.Create(&ratemodel1); result.Error != nil {
+	// 		fmt.Println(result.Error)
+	// 		result1 := map[string]bool{"success": false}
+	// 		result2, _ = json.Marshal(result1)
+	// 		fmt.Println(string(result2))
+	// 		w.Header().Add("Content-Type", "application/json")
+	// 		w.WriteHeader(http.StatusOK)
+	// 		json.NewEncoder(w).Encode(string(result2))
+	// 	} else {
+	// 		result1 := map[string]bool{"success": true}
+	// 		result2, _ := json.Marshal(result1)
+	// 		fmt.Println(string(result2))
+	// 		w.Header().Add("Content-Type", "application/json")
+	// 		w.WriteHeader(http.StatusOK)
+	// 		json.NewEncoder(w).Encode(string(result2))
+	// 	}
+	// }()
+	// time.Sleep(time.Second)
+
 	//go result, err := h.DB.Create(&v1)
 	//if err != nil {
 	//	log.Fatal(err)
@@ -72,5 +94,5 @@ func (h handler) Get_currency_from_api(w http.ResponseWriter, r *http.Request) {
 	//w.Header().Add("Content-Type", "application/xml")
 	//w.WriteHeader(http.StatusOK)
 	//xml.NewEncoder(w).Encode("Done")
-	//time.Sleep(time.Second)
+	//
 }
