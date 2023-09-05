@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/Epic55/go_project_task/pkg/logs"
 	"github.com/Epic55/go_project_task/pkg/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -13,7 +14,8 @@ import (
 func Init() *gorm.DB {
 	fileArr, err := os.ReadFile("pkg/db/config.json")
 	if err != nil {
-		log.Fatalln("[conf.Load] Error at file read,", err)
+		//log.Fatalln("[conf.Load] Error at file read,", err)
+		logs.ErrorLogger.Println("ERROR 111")
 		return nil
 	}
 	var conf models.Db_param
@@ -28,7 +30,8 @@ func Init() *gorm.DB {
 	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{})
 
 	if err != nil {
-		log.Fatalln(err)
+		logs.ErrorLogger.Println("ERROR 111")
+		//log.Fatalln(err)
 	}
 
 	db.AutoMigrate(&models.RateModel{}, &models.R_CURRENCY{})
