@@ -2,10 +2,10 @@ package db
 
 import (
 	"encoding/json"
-	"log"
 	"os"
 
 	"github.com/Epic55/go_project_task/pkg/models"
+	log2 "github.com/sirupsen/logrus"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -13,14 +13,13 @@ import (
 func Init() *gorm.DB {
 	fileArr, err := os.ReadFile("pkg/db/config.json")
 	if err != nil {
-		//log.Fatalln("[conf.Load] Error at file read,", err)
-		logs2.Info
+		log2.Error(err)
 		//return nil
 	}
 	var conf models.Db_param
 	err = json.Unmarshal(fileArr, &conf)
 	if err != nil {
-		log.Fatalf("[conf.Load] error at unmarshall conf", err)
+		log2.Error(err)
 		return nil
 	}
 
@@ -28,8 +27,7 @@ func Init() *gorm.DB {
 	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{})
 
 	if err != nil {
-		//logs.ErrorLogger.Println("ERROR 111")
-		log.Fatalln(err)
+		log2.Error(err)
 	}
 
 	db.AutoMigrate(&models.RateModel{}, &models.R_CURRENCY{})

@@ -5,11 +5,11 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 
 	"github.com/Epic55/go_project_task/pkg/models"
 	"github.com/gorilla/mux"
+	log2 "github.com/sirupsen/logrus"
 )
 
 func (h handler) Get_currency_from_api(w http.ResponseWriter, r *http.Request) {
@@ -20,18 +20,18 @@ func (h handler) Get_currency_from_api(w http.ResponseWriter, r *http.Request) {
 	response, err := http.Get("https://nationalbank.kz/rss/get_rates.cfm?fdate=" + date1)
 	if err != nil {
 		//logs.ErrorLogger.Println("ERROR 111")
-		fmt.Print(err.Error())
+		log2.Error(err.Error())
 	}
 
 	responseData, err := io.ReadAll(response.Body)
 	if err != nil {
-		log.Fatal(err)
+		log2.Error(err)
 	}
 
 	var rate1 models.Rate
 	err = xml.Unmarshal([]byte(responseData), &rate1)
 	if err != nil {
-		log.Fatal("Error - ", err)
+		log2.Error("Error - ", err)
 	}
 
 	// Create a new RateModel instance
@@ -55,14 +55,14 @@ func (h handler) Get_currency_from_api(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(result.Error)
 		result1 := map[string]bool{"success": false}
 		result2, _ = json.Marshal(result1)
-		fmt.Println(string(result2))
+		log2.Info(string(result2))
 		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(string(result2))
 	} else {
 		result1 := map[string]bool{"success": true}
 		result2, _ := json.Marshal(result1)
-		fmt.Println(string(result2))
+		log2.Info(string(result2))
 		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(string(result2))
