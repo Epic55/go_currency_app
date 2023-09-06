@@ -19,7 +19,6 @@ func (h handler) Get_currency_from_api(w http.ResponseWriter, r *http.Request) {
 
 	response, err := http.Get("https://nationalbank.kz/rss/get_rates.cfm?fdate=" + date1)
 	if err != nil {
-		//logs.ErrorLogger.Println("ERROR 111")
 		log2.Error(err.Error())
 	}
 
