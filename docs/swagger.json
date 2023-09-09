@@ -1,0 +1,27 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "A Currency service API in Go using Gin framework",
+        "title": "Currency Service API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:4000",
+    "basePath": "/api",
+    "paths": {
+        "/currency": {
+            "get": {
+                "description": "Return list of currencies.",
+                "summary": "Get All.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "obejct"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -12,6 +12,14 @@ import (
 	log2 "github.com/sirupsen/logrus"
 )
 
+// GetAll 		godoc
+// @Summary			Get All.
+// @Description		Return list of currencies.
+// @Param				add date
+// @Produce				application/json
+// @Currency		currency
+// @Success			200 {obejct} response.Response{}
+// @Router			/currency [get]
 func (h handler) Get_currency_from_api(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)

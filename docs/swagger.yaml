@@ -1,0 +1,18 @@
+basePath: /api
+host: localhost:4000
+info:
+  contact: {}
+  description: A Currency service API in Go using Gin framework
+  title: Currency Service API
+  version: "1.0"
+paths:
+  /currency:
+    get:
+      description: Return list of currencies.
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: obejct
+      summary: Get All.
+swagger: "2.0"
