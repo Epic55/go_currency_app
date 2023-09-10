@@ -17,7 +17,7 @@ import (
 // @description A Currency service API in Go using Gin framework
 
 // @host 	localhost:4000
-// @BasePath /api
+// @BasePath
 
 func main() {
 	DB := db.Init()

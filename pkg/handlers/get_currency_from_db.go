@@ -9,6 +9,15 @@ import (
 	log2 "github.com/sirupsen/logrus"
 )
 
+// GetCurrency		godoc
+// @Summary			Get currency from DB.
+// @Description		Return list of currencies.
+// @Param			date1 path string true "Set date for currency"
+// @Param			code path string false "Set code for currency"
+// @Produce			application/json
+// @Tags			currency1
+// @Success			200 {obejct} response.Response{}
+// @Router			/currency/date1/code [get]
 func (h handler) Get_currency_from_db(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	A_date, _ := vars["date1"]

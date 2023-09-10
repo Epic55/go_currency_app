@@ -1,4 +1,3 @@
-basePath: /api
 host: localhost:4000
 info:
   contact: {}
@@ -6,13 +5,46 @@ info:
   title: Currency Service API
   version: "1.0"
 paths:
-  /currency:
+  /currency/date1/code:
     get:
       description: Return list of currencies.
+      parameters:
+      - description: Set date for currency
+        in: path
+        name: date1
+        required: true
+        type: string
+      - description: Set code for currency
+        in: path
+        name: code
+        type: string
+      produces:
+      - application/json
       responses:
         "200":
           description: OK
           schema:
             type: obejct
-      summary: Get All.
+      summary: Get currency from DB.
+      tags:
+      - currency1
+  /currencys/date1:
+    get:
+      description: Return list of currencies.
+      parameters:
+      - description: Set date for currency
+        in: path
+        name: date1
+        required: true
+        type: string
+      produces:
+      - application/xml
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: obejct
+      summary: Get All Currencirs from API.
+      tags:
+      - currency1
 swagger: "2.0"

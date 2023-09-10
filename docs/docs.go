@@ -15,10 +15,60 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/currency": {
+        "/currency/date1/code": {
             "get": {
                 "description": "Return list of currencies.",
-                "summary": "Get All.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "currency1"
+                ],
+                "summary": "Get currency from DB.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Set date for currency",
+                        "name": "date1",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Set code for currency",
+                        "name": "code",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "obejct"
+                        }
+                    }
+                }
+            }
+        },
+        "/currencys/date1": {
+            "get": {
+                "description": "Return list of currencies.",
+                "produces": [
+                    "application/xml"
+                ],
+                "tags": [
+                    "currency1"
+                ],
+                "summary": "Get All Currencirs from API.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Set date for currency",
+                        "name": "date1",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -36,7 +86,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "localhost:4000",
-	BasePath:         "/api",
+	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Currency Service API",
 	Description:      "A Currency service API in Go using Gin framework",
