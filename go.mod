@@ -10,7 +10,8 @@ require (
 	github.com/go-openapi/spec v0.20.9 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/jinzhu/gorm v1.9.16 // indirect
-	github.com/sirupsen/logrus v1.4.2
+	github.com/prometheus/client_golang v1.16.0 // indirect
+	github.com/sirupsen/logrus v1.6.0
 	github.com/swaggo/files v1.0.1 // indirect
 	github.com/swaggo/gin-swagger v1.6.0 // indirect
 	github.com/swaggo/http-swagger v1.3.4 // indirect
