@@ -26,6 +26,7 @@ func main() {
 	DB := db.Init()
 	h := handlers.New(DB)
 	router := mux.NewRouter()
+	router.Use(metric.PrometheusMiddleware)
 
 	router.HandleFunc("/currency/{date1}", h.Get_currency_from_db).Methods(http.MethodGet)
 	router.HandleFunc("/currency/{date1}/{code}", h.Get_currency_from_db).Methods(http.MethodGet)
