@@ -31,5 +31,11 @@ func Init() *gorm.DB {
 	}
 
 	db.AutoMigrate(&models.RateModel{}, &models.R_CURRENCY{})
+
+	//MIGRATION. REMOVE COLUMN IF NECESSARY
+	if db.Migrator().HasColumn(&models.R_CURRENCY{}, "test") {
+		db.Migrator().DropColumn(&models.R_CURRENCY{}, "test")
+	}
+
 	return db
 }

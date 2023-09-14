@@ -3,7 +3,6 @@
 3) REMOVE UNNECESSARY COLUMNS FROM DB
 4) CREATE UNIT TESTS FOR METHODS. Проверить что тест реализует разные варианты проверки метода.
 5) CHECK METRICS IN PROMETHEUS 
-6) Задача сделать миграции БД с помощью библиотеки go. Накатить\откатить миграции, посмотреть как отработает.
 
 
 
