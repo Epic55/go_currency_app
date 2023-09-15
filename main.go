@@ -30,7 +30,7 @@ func main() {
 
 	router.HandleFunc("/currency/{date1}", h.Get_currency_from_db).Methods(http.MethodGet)
 	router.HandleFunc("/currency/{date1}/{code}", h.Get_currency_from_db).Methods(http.MethodGet)
-	router.HandleFunc("/currencys/{date1}", h.Get_currency_from_api).Methods(http.MethodGet)
+	router.HandleFunc("/currencys/save/{date1}", h.Get_currency_from_api).Methods(http.MethodGet)
 
 	router.PathPrefix("/swagger/").Handler(httpSwagger.Handler(
 		httpSwagger.URL("http://localhost:4000/swagger/doc.json"), //The url pointing to API definition

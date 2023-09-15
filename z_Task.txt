@@ -1,5 +1,4 @@
 1) SAVINGS DO IN GOROUTINES. Отдать ответ пользователю, не дожидаясь завершения.
-2) LAUNCH WITH 2 PATH IN API
 3) REMOVE UNNECESSARY COLUMNS FROM DB
 4) CREATE UNIT TESTS FOR METHODS. Проверить что тест реализует разные варианты проверки метода.
 5) CHECK METRICS IN PROMETHEUS 
