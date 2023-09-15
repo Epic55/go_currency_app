@@ -75,16 +75,16 @@ func (h handler) Get_currency_from_api(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(string(result2))
 	}
-	var result chan int =make(chan int)
-	go func1(res chan int){
-		//do some stuff
-		res<-1
-		fmt.Println("aaa")
-	}(result)
-	//do some other stuff
-	time.Sleep(1*time.Second)
-	res:=<-result
-	fmt.Println("bbb")
+	// var result chan int =make(chan int)
+	// go func1(res chan int){
+	// 	//do some stuff
+	// 	res<-1
+	// 	fmt.Println("aaa")
+	// }(result)
+	// //do some other stuff
+	// time.Sleep(1*time.Second)
+	// res:=<-result
+	// fmt.Println("bbb")
 
 	// go func() {
 	// 	if result := h.DB.Create(&ratemodel1); result.Error != nil {
