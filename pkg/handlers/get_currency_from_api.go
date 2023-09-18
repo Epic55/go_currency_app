@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"time"
 
 	"github.com/Epic55/go_project_task/pkg/models"
 	"github.com/gorilla/mux"
@@ -75,16 +74,6 @@ func (h handler) Get_currency_from_api(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(string(result2))
 	}
-	// var result chan int =make(chan int)
-	// go func1(res chan int){
-	// 	//do some stuff
-	// 	res<-1
-	// 	fmt.Println("aaa")
-	// }(result)
-	// //do some other stuff
-	// time.Sleep(1*time.Second)
-	// res:=<-result
-	// fmt.Println("bbb")
 
 	// go func() {
 	// 	if result := h.DB.Create(&ratemodel1); result.Error != nil {
@@ -92,26 +81,16 @@ func (h handler) Get_currency_from_api(w http.ResponseWriter, r *http.Request) {
 	// 		result1 := map[string]bool{"success": false}
 	// 		result2, _ = json.Marshal(result1)
 	// 		fmt.Println(string(result2))
-	// 		w.Header().Add("Content-Type", "application/json")
-	// 		w.WriteHeader(http.StatusOK)
-	// 		json.NewEncoder(w).Encode(string(result2))
 	// 	} else {
 	// 		result1 := map[string]bool{"success": true}
 	// 		result2, _ := json.Marshal(result1)
-	// 		fmt.Println(string(result2))
-	// 		w.Header().Add("Content-Type", "application/json")
-	// 		w.WriteHeader(http.StatusOK)
-	// 		json.NewEncoder(w).Encode(string(result2))
+	// 		fmt.Println("111 - ", string(result2))
 	// 	}
 	// }()
 	// time.Sleep(time.Second)
+	// w.Header().Add("Content-Type", "application/json")
+	// w.WriteHeader(http.StatusOK)
+	// json.NewEncoder(w).Encode(string(result2))  //THIS GIVES EMPTY LINE IN POSTMAN
+	// fmt.Println("222 - ", string(result2))
 
-	//go result, err := h.DB.Create(&v1)
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
-	//w.Header().Add("Content-Type", "application/xml")
-	//w.WriteHeader(http.StatusOK)
-	//xml.NewEncoder(w).Encode("Done")
-	//
 }

@@ -6,7 +6,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:4000",
+    "host": "localhost:8080",
     "paths": {
         "/currency/date1/code": {
             "get": {

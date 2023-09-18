@@ -19,7 +19,7 @@ import (
 // @version	1.0
 // @description A Currency service API in Go using Gin framework
 
-// @host 	localhost:4000
+// @host 	localhost:8080
 // @BasePath
 
 func main() {
@@ -33,7 +33,7 @@ func main() {
 	router.HandleFunc("/currencys/save/{date1}", h.Get_currency_from_api).Methods(http.MethodGet)
 
 	router.PathPrefix("/swagger/").Handler(httpSwagger.Handler(
-		httpSwagger.URL("http://localhost:4000/swagger/doc.json"), //The url pointing to API definition
+		httpSwagger.URL("http://localhost:8080/swagger/doc.json"), //The url pointing to API definition
 		httpSwagger.DeepLinking(true),
 		httpSwagger.DocExpansion("none"),
 		httpSwagger.DomID("swagger-ui"),
@@ -43,5 +43,5 @@ func main() {
 	metric.RecordMetrics()
 
 	log2.Info("API is running!")
-	http.ListenAndServe("127.0.0.1:4000", router)
+	http.ListenAndServe("127.0.0.1:8080", router)
 }
