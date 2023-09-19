@@ -1,7 +1,7 @@
 1) SAVINGS DO IN GOROUTINES. Отдать ответ пользователю, не дожидаясь завершения.
-3) REMOVE UNNECESSARY COLUMNS FROM DB
-4) CREATE UNIT TESTS FOR METHODS. Проверить что тест реализует разные варианты проверки метода.
-5) CHECK METRICS IN PROMETHEUS 
+2) REMOVE UNNECESSARY COLUMNS FROM DB
+3) CREATE UNIT TESTS FOR METHODS. Проверить что тест реализует разные варианты проверки метода.
+4) CHECK METRICS IN PROMETHEUS 
 
 
 
