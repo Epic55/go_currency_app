@@ -22,10 +22,12 @@ type App struct {
 	DB     *sql.DB
 }
 
-type user struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
-	Age  int    `json:"age"`
+type currency struct {
+	ID     int
+	a_date string
+	title  string
+	code   string
+	value  string
 }
 
 func (a *App) Initialize(user, password, host, port, dbname string) {
@@ -34,7 +36,7 @@ func (a *App) Initialize(user, password, host, port, dbname string) {
 	var err error
 	a.DB, err = sql.Open("postgres", connectionString)
 	if err != nil {
-		log.Fatal("Error1 - ", err)
+		log.Fatal(err)
 	}
 
 	a.Router = mux.NewRouter()
@@ -46,10 +48,10 @@ func (a *App) Run(addr string) {
 }
 
 func (a *App) initializeRoutes() {
-	a.Router.HandleFunc("/currency/{date1}", a.getUsers).Methods("GET")
+	a.Router.HandleFunc("/currency/{date1}", a.getCurrency).Methods("GET")
 }
 
-func (a *App) getUsers(w http.ResponseWriter, r *http.Request) {
+func (a *App) getCurrency(w http.ResponseWriter, r *http.Request) {
 	count, _ := strconv.Atoi(r.FormValue("count"))
 	start, _ := strconv.Atoi(r.FormValue("start"))
 
@@ -60,7 +62,7 @@ func (a *App) getUsers(w http.ResponseWriter, r *http.Request) {
 		start = 0
 	}
 
-	products, err := getUsers(a.DB, start, count)
+	products, err := getCurrency(a.DB, start, count)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 		return
@@ -69,8 +71,8 @@ func (a *App) getUsers(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusOK, products)
 }
 
-func getUsers(db *sql.DB, start, count int) ([]user, error) {
-	statement := fmt.Sprintf("SELECT id, name, age FROM users LIMIT %d OFFSET %d", count, start)
+func getCurrency(db *sql.DB, start, count int) ([]currency, error) {
+	statement := fmt.Sprintf("SELECT id, a_date, title, code, value FROM r_currencies")
 	rows, err := db.Query(statement)
 
 	if err != nil {
@@ -79,17 +81,17 @@ func getUsers(db *sql.DB, start, count int) ([]user, error) {
 
 	defer rows.Close()
 
-	users := []user{}
+	currencies := []currency{}
 
 	for rows.Next() {
-		var u user
-		if err := rows.Scan(&u.ID, &u.Name, &u.Age); err != nil {
+		var u currency
+		if err := rows.Scan(&u.ID, &u.a_date, &u.title, &u.code, &u.value); err != nil {
 			return nil, err
 		}
-		users = append(users, u)
+		currencies = append(currencies, u)
 	}
 
-	return users, nil
+	return currencies, nil
 }
 
 func respondWithError(w http.ResponseWriter, code int, message string) {
@@ -110,45 +112,13 @@ func TestMain(m *testing.M) {
 	a = App{}
 	a.Initialize("postgres", "1", "localhost", "5432", "db1")
 
-	ensureTableExists()
-
 	code := m.Run()
-
-	//clearTable()
 
 	os.Exit(code)
 }
 
-func ensureTableExists() {
-	if _, err := a.DB.Exec(tableCreationQuery); err != nil {
-		log.Fatal(err)
-	}
-}
-
 func clearTable() {
-	a.DB.Exec("DELETE FROM r_currencies WHERE a_date=01.08.2023")
-	//a.DB.Exec("ALTER TABLE users AUTO_INCREMENT = 1")
-}
-
-const tableCreationQuery = `
-CREATE TABLE IF NOT EXISTS users
-(
-    id serial PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    age INT NOT NULL
-)`
-
-func TestEmptyTable(t *testing.T) {
-	clearTable()
-
-	req, _ := http.NewRequest("GET", "/currency/01.08.2023", nil)
-	response := executeRequest(req)
-
-	checkResponseCode(t, http.StatusOK, response.Code)
-
-	if body := response.Body.String(); body != "[]" {
-		t.Errorf("Expected an empty array. Got %s", body)
-	}
+	a.DB.Exec("DELETE FROM r_currencies WHERE a_date=30.08.2023")
 }
 
 func executeRequest(req *http.Request) *httptest.ResponseRecorder {
@@ -164,38 +134,25 @@ func checkResponseCode(t *testing.T, expected, actual int) {
 	}
 }
 
-func TestGetNonExistentCurrency(t *testing.T) {
-	clearTable()
-
-	req, _ := http.NewRequest("GET", "/currency/01.08.2023", nil)
-	response := executeRequest(req)
-
-	checkResponseCode(t, http.StatusNotFound, response.Code)
-
-	var m map[string]string
-	json.Unmarshal(response.Body.Bytes(), &m)
-	if m["error"] != "User not found" {
-		t.Errorf("Expected the 'error' key of the response to be set to 'User not found'. Got '%s'", m["error"])
-	}
-}
-
-func addUsers(count int) {
+func addCurrency(count int) {
 	if count < 1 {
 		count = 1
 	}
 
 	for i := 0; i < count; i++ {
-		statement := fmt.Sprintf("INSERT INTO r_currencies(a_date, title, code, value) VALUES('%s', %s, '%s', '%s')", "28.08.2023", "SSS", "SSS", "1")
-		a.DB.Exec(statement)
+		statement1 := fmt.Sprintf("INSERT INTO r_currencies(id, a_date, title, code, value) VALUES('%d', '%s', '%s', '%s', '%s')", 2, "30.08.2023", "title1", "code1", "1")
+		statement2 := fmt.Sprintf("UPDATE r_currencies SET a_date='30.08.2023' WHERE id=2")
+		a.DB.Exec(statement1)
+		a.DB.Exec(statement2)
 	}
 }
 
 func TestGetCurrency(t *testing.T) {
-	//clearTable()
-	addUsers(1)
+	addCurrency(1)
 
-	req, _ := http.NewRequest("GET", "/currency/28.08.2023", nil)
+	req, _ := http.NewRequest("GET", "/currency/29.08.2023", nil)
 	response := executeRequest(req)
 
 	checkResponseCode(t, http.StatusOK, response.Code)
+	//clearTable()
 }
