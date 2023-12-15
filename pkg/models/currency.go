@@ -2,11 +2,12 @@ package models
 
 import "gorm.io/gorm"
 
+//COMES FROM XML
 type Rate struct {
 	A_date string `xml:"date"`
 	Items  []Item `xml:"item"`
 }
-
+//COMES FROM XML
 type Item struct {
 	Title string `xml:"fullname"`
 	Code  string `xml:"title"`
