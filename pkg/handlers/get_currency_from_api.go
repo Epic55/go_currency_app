@@ -20,7 +20,7 @@ import (
 // @Tags			currency1
 // @Success			200 {obejct} response.Response{}
 // @Router			/currencys/date1 [get]
-func (h handler) Get_currency_from_api(w http.ResponseWriter, r *http.Request) {
+func (handler1 handler) Get_currency_from_api(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
 	date1, _ := vars["date1"]
@@ -58,7 +58,7 @@ func (h handler) Get_currency_from_api(w http.ResponseWriter, r *http.Request) {
 
 	var result2 []byte
 
-	if result := h.DB.Create(&ratemodel1); result.Error != nil {
+	if result := handler1.DB.Create(&ratemodel1); result.Error != nil {
 		fmt.Println(result.Error)
 		result1 := map[string]bool{"success": false}
 		result2, _ = json.Marshal(result1)

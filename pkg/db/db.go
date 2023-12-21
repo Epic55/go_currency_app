@@ -24,18 +24,18 @@ func Init() *gorm.DB {
 	}
 
 	dbURL := "postgres://" + conf.User + ":" + conf.Password + "@" + conf.Host + ":" + conf.Port + "/" + conf.DbName
-	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{})
+	db1, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{})
 
 	if err != nil {
 		log2.Error(err)
 	}
 
-	db.AutoMigrate(&models.RateModel{}, &models.R_CURRENCY{})
+	db1.AutoMigrate(&models.RateModel{}, &models.R_CURRENCY{})
 
 	//MIGRATION. REMOVE COLUMN IF NECESSARY
-	if db.Migrator().HasColumn(&models.R_CURRENCY{}, "test") {
-		db.Migrator().DropColumn(&models.R_CURRENCY{}, "test")
+	if db1.Migrator().HasColumn(&models.R_CURRENCY{}, "test") {
+		db1.Migrator().DropColumn(&models.R_CURRENCY{}, "test")
 	}
 
-	return db
+	return db1
 }
